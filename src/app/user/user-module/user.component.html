@@ -1,0 +1,113 @@
+<div style="padding: 20px;">
+  <mat-form-field appearance="standard">
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+  </mat-form-field>
+  
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 my-component-container-auto">
+  
+    <!-- Position Column -->
+    <ng-container matColumnDef="Company">
+      <th mat-header-cell *matHeaderCellDef> Company </th>
+      <td mat-cell *matCellDef="let element"> {{element.Company}} </td>
+    </ng-container>
+  
+    <!-- Name Column -->
+    <ng-container matColumnDef="Sector">
+      <th mat-header-cell *matHeaderCellDef> Sector </th>
+      <td mat-cell *matCellDef="let element"> {{element.Sector}} </td>
+    </ng-container>
+  
+    <!-- Weight Column -->
+    <ng-container matColumnDef="Tags">
+      <th mat-header-cell *matHeaderCellDef> Tags </th>
+      <td mat-cell *matCellDef="let element"> {{element.Tags}} </td>
+    </ng-container>
+  
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="ServiceProduct">
+      <th mat-header-cell *matHeaderCellDef> Service or Product </th>
+      <td mat-cell *matCellDef="let element" style="max-width: 300px;"> {{element.ServiceProduct}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="ContactName">
+      <th mat-header-cell *matHeaderCellDef> Contact Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.ContactName}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="Phone1">
+      <th mat-header-cell *matHeaderCellDef> Phone 1 </th>
+      <td mat-cell *matCellDef="let element"> {{element.Phone1}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="Phone2">
+      <th mat-header-cell *matHeaderCellDef> Phone 2 </th>
+      <td mat-cell *matCellDef="let element"> {{element.Phone2}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="Address">
+      <th mat-header-cell *matHeaderCellDef> Address </th>
+      <td mat-cell *matCellDef="let element"> {{element.Address}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="City">
+      <th mat-header-cell *matHeaderCellDef> City </th>
+      <td mat-cell *matCellDef="let element"> {{element.City}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="Province">
+      <th mat-header-cell *matHeaderCellDef> Province </th>
+      <td mat-cell *matCellDef="let element"> {{element.Province}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="PostalCode">
+      <th mat-header-cell *matHeaderCellDef> PostalCode </th>
+      <td mat-cell *matCellDef="let element"> {{element.PostalCode}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="Website">
+      <th mat-header-cell *matHeaderCellDef> Website </th>
+      <td mat-cell *matCellDef="let element">
+        <div *ngIf="!element.Website"></div>
+        <a *ngIf="element.Website" [attr.href]="'//' + element.Website" target="_blank" rel="noopener">Website</a>
+      </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="Email">
+      <th mat-header-cell *matHeaderCellDef> Email </th>
+      <td mat-cell *matCellDef="let element"> {{element.Email}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="InstagramLink">
+      <th mat-header-cell *matHeaderCellDef> InstagramLink </th>
+      <td mat-cell *matCellDef="let element">
+        <div *ngIf="!element.InstagramLink"></div>
+        <a *ngIf="element.InstagramLink" [attr.href]="'//' + element.InstagramLink" target="_blank" rel="noopener">Instagram</a>
+      </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="FacebookLink">
+      <th mat-header-cell *matHeaderCellDef> Facebook </th>
+      <td mat-cell *matCellDef="let element">
+        <div *ngIf="!element.FacebookLink"></div>
+        <a *ngIf="element.FacebookLink" [attr.href]="'//' + element.FacebookLink" target="_blank" rel="noopener">Facebook</a>
+      </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="BrazilianCompany">
+      <th mat-header-cell *matHeaderCellDef> Brazilian </th>
+      <td mat-cell *matCellDef="let element">
+        <mat-checkbox [checked]="element.BrazilianCompany" disabled="true"></mat-checkbox>
+      </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  
+    <!-- Row shown when there is no matching data. -->
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+    </tr>
+  </table>
+  
+</div>

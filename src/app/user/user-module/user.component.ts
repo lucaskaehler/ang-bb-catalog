@@ -4,6 +4,9 @@ import { Data } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Company } from 'src/@shared/models/company';
 import {MatTableDataSource} from '@angular/material/table';
+import { FormControl } from '@angular/forms';
+import { map, startWith } from 'rxjs/operators';
+
 
 
 @Component({
@@ -13,7 +16,52 @@ import {MatTableDataSource} from '@angular/material/table';
 })
 export class UserModuleComponent implements OnInit {
 
-  constructor(private firestore: Firestore) { }
+  constructor(private firestore: Firestore) {
+    this.filteredBusiness = this.businessFilterControl.valueChanges.pipe(
+      startWith(null), map(business => this.filterBusinesses(business))
+    );
+   }
+
+  businessFilterControl: FormControl = new FormControl();
+  filteredBusiness: any;
+  filteredBusinessValue: any = "";
+  selected: any = { business: null };
+  minLength: number = 2;
+  display: any = { business: (business: any): string => business ? business.Company + " - " + business.ContactName : business};
+  displayButton: any = false;
+
+  async onBusinessSelected(e: any) {
+    this.data = e.option.value;
+    this.displayButton = true;
+    let businessCollection = query(collection(this.firestore, "businesses"), where("Company", "==", e.option.value.Company));
+
+    const querySnapshot = await getDocs(businessCollection);
+
+    querySnapshot.forEach((doc) => {
+      let data = doc.data();
+      this.filteredBusinessValue = data!['Company'];
+    });
+
+  }
+  filterBusinesses(arg: any) {
+    if(arg){
+      let val = arg.toString();
+      this.selected.business = null;
+      if (val && val.length >= this.minLength && this.data) {
+        return this.data.filter(e => (e.Company + "|" + e.ContactName).toLowerCase().indexOf(val.toLowerCase()) !== -1);
+
+        // return this.data.filter(e => (e.Company + "|" + e.ContactName).toLowerCase().indexOf(val.toLowerCase()) !== -1);
+      } 
+      else {
+        return [];
+      }
+    }
+  }
+  clearFilter(){
+    this.filteredBusinessValue = "";
+    this.displayButton = false;
+  }
+
 
   DATA: any[] = [
     {
@@ -1077,7 +1125,7 @@ export class UserModuleComponent implements OnInit {
     }
   }
 
-  test: any[] = [];
+  data: any[] = [];
   async getData(){
     // const collection = this.companiesCollection;
     // this.item$ = collectionData(collection);
@@ -1085,22 +1133,25 @@ export class UserModuleComponent implements OnInit {
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       let data = doc.data();
-      this.test.push(data as []);
-      console.log(this.test);
+      this.data.push(data as []);
     });
   }
+
 
 
   // displayedColumns: string[] = ['Company', 'Sector', 'Tags', 'ServiceProduct', 'ContactName', 'Phone1', 'Phone2', 'Address', 'City', 'Province', 'Website', 'Email', 'InstagramLink', 'FacebookLink', 'BrazilianCompany'];
   displayedColumns: string[] = ['Company', 'ServiceProduct', 'ContactName', 'Phone1', 'Phone2', 'Address', 'City', 'Province', 'Website', 'Email', 'InstagramLink', 'FacebookLink', 'BrazilianCompany'];
 
-  dataSource = new MatTableDataSource(this.DATA);
+  dataSource = new MatTableDataSource(this.data);
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
+  showTable: boolean = false;
+
   ngOnInit(): void {
+    this.getData();
   }
 
 }

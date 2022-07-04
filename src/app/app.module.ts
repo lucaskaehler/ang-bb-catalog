@@ -16,11 +16,13 @@ import { provideRemoteConfig,getRemoteConfig } from '@angular/fire/remote-config
 import { provideStorage,getStorage } from '@angular/fire/storage';
 import { MyMaterialModule } from 'src/@shared/modules/material.modules';
 import {  } from '@angular/fire/firestore';
+import { ShellComponent } from './@shared/shell/shell.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ShellComponent
   ],
   imports: [
     BrowserModule,

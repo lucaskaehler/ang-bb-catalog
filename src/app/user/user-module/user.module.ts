@@ -4,7 +4,8 @@ import { CommonModule } from '@angular/common';
 import { UserModuleRoutingModule } from './user-routing.module';
 import { UserModuleComponent } from './user.component';
 import { MyMaterialModule } from 'src/@shared/modules/material.modules';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FlexLayoutModule, FlexModule } from '@angular/flex-layout';
 
 
 @NgModule({
@@ -15,7 +16,9 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     UserModuleRoutingModule,
     MyMaterialModule,
-    FormsModule
+    FormsModule,
+    FlexLayoutModule,
+    FormsModule, ReactiveFormsModule
   ]
 })
 export class UserModuleModule { }

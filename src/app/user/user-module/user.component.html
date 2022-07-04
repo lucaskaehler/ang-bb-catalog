@@ -1,10 +1,43 @@
-<div style="padding: 20px;">
+<div style="padding: 20px;" fxLayout="column">
+
+
+  <button mat-raised-button (click)="showTable = true">Table</button>
+
   <mat-form-field appearance="standard">
-    <mat-label>Filter</mat-label>
+    <mat-label>Search</mat-label>
     <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
   </mat-form-field>
-  
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 my-component-container-auto">
+
+  <mat-form-field fxFlex="calc(100% - 40px)">
+    <input #employeeEl matInput
+      placeholder="Search..."
+      [matAutocomplete]="employeeAuto" [formControl]="businessFilterControl"
+      [(ngModel)]="filteredBusinessValue">
+    <mat-autocomplete (optionSelected)="onBusinessSelected($event)" #employeeAuto="matAutocomplete"
+      [displayWith]="display.employee">
+      <mat-option *ngFor="let option of filteredBusiness | async" [value]="option">
+        {{option.Company + " - " + option.ContactName}}</mat-option>
+    </mat-autocomplete>
+    <button mat-button *ngIf="filteredBusinessValue" matSuffix mat-icon-button (click)="clearFilter()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+
+  <section fxFlex="calc(100% - 51px)" class="results" *ngIf="data">
+    <div>
+      <div style="font-size: 10px;"></div>
+      <!-- <strong style="text-align: center;">{{data.Company}}</strong> -->
+      <div style="margin-top: 10px;" fxLayout="column">
+        <div>test</div>
+        <!-- <div *ngIf="data">{{data!.Company}}</div>
+        <div *ngIf="data">{{data!.ContactName}}</div> -->
+      </div>
+    </div>
+    <!-- <button mat-icon-button (click)="clearResult()">&times;</button> -->
+  </section>
+
+
+  <table *ngIf="showTable" mat-table [dataSource]="dataSource" class="mat-elevation-z8 my-component-container-auto">
   
     <!-- Position Column -->
     <ng-container matColumnDef="Company">

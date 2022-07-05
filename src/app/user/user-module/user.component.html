@@ -10,7 +10,7 @@
 
   <mat-form-field fxFlex="calc(100% - 40px)">
     <input #employeeEl matInput
-      placeholder="Search..."
+      placeholder="Search for Company or Contact Name"
       [matAutocomplete]="employeeAuto" [formControl]="businessFilterControl"
       [(ngModel)]="filteredBusinessValue">
     <mat-autocomplete (optionSelected)="onBusinessSelected($event)" #employeeAuto="matAutocomplete"
@@ -23,7 +23,7 @@
     </button>
   </mat-form-field>
 
-  <section fxFlex="calc(100% - 51px)" class="results" *ngIf="data">
+  <section fxFlex="calc(100% - 51px)" class="results" *ngIf="companies.length > 0">
     <div>
       <div style="font-size: 10px;"></div>
       <!-- <strong style="text-align: center;">{{data.Company}}</strong> -->

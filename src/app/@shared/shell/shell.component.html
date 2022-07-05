@@ -1,4 +1,95 @@
+<mat-sidenav-container class="sidenav-container">
+
+    <!-- SIDENAV -->
+  
+    <mat-sidenav #drawer class="sidenav" fixedInViewport
+        [opened]="false">
+      <!-- <mat-toolbar>Menu</mat-toolbar> -->
+      <mat-nav-list class="my-mat-nav-list">  
+        <a mat-list-item routerLink="/admin">Admin</a>
+      </mat-nav-list>
+    </mat-sidenav>
+  
+    <mat-sidenav-content>
+  
+    <!-- TOP TOOLBAR-->
+      <mat-toolbar class="my-navbar" fxLayout="row">
+        <span class="logo" class="my-navbar-link">
+          <img src="/assets/bc.jpg" style="height: 50px; margin-top: auto; margin-bottom: auto; display: block; margin-right: 8px;">
+        </span>
+        <span class="my-navbar-title">Dashboard</span>
+        <span class="fill-space"></span>
+       
+        <button mat-icon-button [matMenuTriggerFor]="userMenu" aria-label="Example icon-button with a menu" class="profile" *ngIf="authService.userData" class="my-navbar-link">
+          <mat-icon *ngIf="!authService.userData.photoURL">person</mat-icon>        
+        </button>
+        <mat-menu #userMenu yPosition="below" overlapTrigger="false" style="z-index:15" class="text-small align-center"> 
+          <div *ngIf="authService.userData as user" style="padding:16px;">{{user!.displayName}}</div>
+          <mat-divider></mat-divider>
+
+        </mat-menu>
+      </mat-toolbar>
+  
+      <!-- TRANSCLUSION -->
+      <div style="top:64px; position:relative;">
+          <ng-content></ng-content>    
+      </div>   
+  
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+
+
+
+
+<!-- <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0">
+      <img class="brand-logo" src="/assets/bc.jpg" alt="Brazilian Catalog Logo">
+    </a>
+  </nav>
+  <div class="container-fluid">
+    <div class="row">
+      <nav class="col-md-2 d-md-block bg-light sidebar">
+        <div class="sidebar-sticky">
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link active">
+                <i class="fas fa-user"></i>User Profile
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" (click)="authService.SignOut()">
+                <i class="fas fa-sign-out-alt"></i>Log out
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+        <div class="inner-adjust">
+          <div class="pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">User Profile</h1>
+          </div>
+          <div class="row" *ngIf="authService.userData as user">
+            <div class="col-md-12">
+              <div class="media">
+                <img class="align-self-start mr-5 img-thumbnail rounded-circle" src="{{(user.photoURL) ? user.photoURL : '/assets/dummy-user.png'}}"
+                  alt="{{user.displayName}}">
+                <div class="media-body">
+                  <h1>Hello: <strong>{{(user.displayName) ? user.displayName : 'User'}}</strong></h1>
+                  <p>User ID: <strong>{{user.uid}}</strong></p>
+                  <p>Email: <strong>{{user.email}}</strong></p>
+                  <p>Email Verified: <strong>{{user.emailVerified}}</strong></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+
 <div>
     <img src="/assets/bc.jpg" width="150px" height="auto" style="margin-left: auto; margin-right: auto; display:block">
-</div>
+</div> -->
 <router-outlet></router-outlet>

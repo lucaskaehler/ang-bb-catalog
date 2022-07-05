@@ -9,7 +9,8 @@ export const environment = {
     projectId: "brazilians-catalog",
     storageBucket: "brazilians-catalog.appspot.com",
     messagingSenderId: "24119928615",
-    appId: "1:24119928615:web:883b3380de8e4642c22b02"
+    appId: "1:24119928615:web:883b3380de8e4642c22b02",
+    experimentalForceLongPolling: true
   },
   production: false
 };

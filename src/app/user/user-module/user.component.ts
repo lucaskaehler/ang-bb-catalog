@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Firestore, collectionData, collection, addDoc, query, getDocs, where } from '@angular/fire/firestore';
-import { Data } from '@angular/router';
 import { Observable } from 'rxjs';
-import { Company } from 'src/@shared/models/company';
+import { Company } from 'src/app/@shared/models/company';
 import {MatTableDataSource} from '@angular/material/table';
 import { FormControl } from '@angular/forms';
 import { map, startWith } from 'rxjs/operators';
+import { AuthService } from 'src/app/@shared/services/auth.service';
 
 
 
@@ -16,7 +16,7 @@ import { map, startWith } from 'rxjs/operators';
 })
 export class UserModuleComponent implements OnInit {
 
-  constructor(private firestore: Firestore) {
+  constructor(private firestore: Firestore, public authService: AuthService) {
     this.filteredBusiness = this.businessFilterControl.valueChanges.pipe(
       startWith(null), map(business => this.filterBusinesses(business))
     );
@@ -29,17 +29,19 @@ export class UserModuleComponent implements OnInit {
   minLength: number = 2;
   display: any = { business: (business: any): string => business ? business.Company + " - " + business.ContactName : business};
   displayButton: any = false;
+  companies: any[] = [];
 
   async onBusinessSelected(e: any) {
-    this.data = e.option.value;
+    let company = e.option.value.Company;
+    // this.companies = e.option.value;
     this.displayButton = true;
-    let businessCollection = query(collection(this.firestore, "businesses"), where("Company", "==", e.option.value.Company));
+    let businessCollection = query(collection(this.firestore, "businesses"), where("Company", "==", company));
 
     const querySnapshot = await getDocs(businessCollection);
 
     querySnapshot.forEach((doc) => {
-      let data = doc.data();
-      this.filteredBusinessValue = data!['Company'];
+      this.companies.push(doc.data() as []);
+      this.filteredBusinessValue = this.companies[0].Company;
     });
 
   }
